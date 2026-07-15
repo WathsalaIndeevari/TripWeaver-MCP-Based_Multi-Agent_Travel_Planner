@@ -1,0 +1,10 @@
+langchain
+langgraph
+langchain-openai
+langchain-mcp-adapters
+mcp
+fastapi
+uvicorn[standard]
+gradio
+python-dotenv
+pydantic
