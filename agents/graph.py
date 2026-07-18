@@ -1,10 +1,3 @@
-"""LangGraph wiring for TripWeaver.
-
-Builds a StateGraph over AgentState with a router entry point that
-conditionally dispatches to the general QA, hotel, or flight agent nodes
-based on the classified intent. Each agent node is a terminal step.
-"""
-
 from __future__ import annotations
 
 from langchain_core.messages import HumanMessage
