@@ -198,7 +198,7 @@ async def hotel_node(state: AgentState) -> dict:
     if missing:
         return {
             "missing_fields": missing,
-            "messages": [AIMessage(content=_format_hotel_results(result))],
+            "messages": [AIMessage(content=_hotel_clarifying_question(missing))],
         }
 
     ai_response, tools = await _invoke_hotel_agent(state)
@@ -300,7 +300,7 @@ async def _execute_flight_tool_call(
     return {
         "last_tool_status": ToolCallStatus.SUCCEEDED,
         "flight_results": result,
-        "messages": [AIMessage(content=f"Here's what I found: {result}")],
+        "messages": [AIMessage(content=_format_flight_results(result))],
     }
 
 
