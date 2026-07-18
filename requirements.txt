@@ -8,3 +8,5 @@ uvicorn[standard]
 gradio
 python-dotenv
 pydantic
+gradio
+httpx
