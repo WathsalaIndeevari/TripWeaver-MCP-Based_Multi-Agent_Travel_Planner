@@ -5,10 +5,22 @@ from agents.entity import Intent
 
 
 class RouterOutput(BaseModel):
-    """Pydantic model for structured-output intent classification."""
-
-    intent: Intent = Field(
-        description="The classified intent of the user's input, either general, hotel, or flight."
+    intent: Intent = Field(...)
+    location: str | None = Field(
+        default=None, description="City/location mentioned for a hotel search, if any"
+    )
+    hotel_id: str | None = Field(
+        default=None, description="Hotel ID if the user is booking a specific hotel"
+    )
+    origin: str | None = Field(default=None, description="Flight origin city, if any")
+    destination: str | None = Field(
+        default=None, description="Flight destination city, if any"
+    )
+    flight_id: str | None = Field(
+        default=None, description="Flight ID if the user is booking a specific flight"
+    )
+    action: str | None = Field(
+        default=None, description="'search' or 'book', if determinable"
     )
 
 
@@ -20,11 +32,11 @@ Your task is to analyze the conversation history and classify the user's latest 
 
 Classification Examples:
 1. "find me a hotel in Tokyo" -> hotel
-2. "what's the best time to visit Japan" -> general
-3. "book flight-003" -> flight
-4. "hello, how are you today?" -> general
+2. "what will be the best time to visit Japan" -> general
+3. "book flight no-003" -> flight
+4. "hey, how are you today?" -> general
 5. "show me flights from NYC to Paris" -> flight
-6. "are there rooms available at the Hilton tomorrow?" -> hotel
+6. "are there any rooms available at the Hilton tomorrow?" -> hotel
 
 Handling Ambiguity & Continuation:
 - Keep ambiguous booking-continuation messages (like "book the second one", "yes, go ahead and book it", "details for the first option") routable based on the conversation context.
