@@ -89,14 +89,62 @@ async def _stream_chat(message: str, history: list, session_id: str):
         yield history
 
 
+css = """
+#app .gradio-container {
+    padding-top: 16px;
+    max-width: 860px !important;
+    margin: 0 auto !important;
+}
+
+/* --- Chat bubbles, ChatGPT style (Task 2) --- */
+#chatbot .message-wrap .message.user {
+    background: #10a37f !important;
+    color: #ffffff !important;
+    border-radius: 18px !important;
+    margin-left: auto !important;
+    max-width: 75% !important;
+    padding: 10px 14px !important;
+}
+#chatbot .message-wrap .message.bot {
+    background: #f3f4f6 !important;
+    color: #111827 !important;
+    border-radius: 18px !important;
+    margin-right: auto !important;
+    max-width: 75% !important;
+    padding: 10px 14px !important;
+}
+
+/* --- Footer (Task 3 + 4) --- */
+.custom-footer {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 4px !important;
+    margin-top: 20px !important;
+    padding-top: 12px !important;
+    border-top: 1px solid #e5e7eb !important;
+}
+.custom-footer .settings-link {
+    font-size: 0.9rem !important;
+    color: #374151 !important;
+}
+.custom-footer .copyright-text {
+    font-size: 0.75rem !important;
+    color: #9ca3af !important;
+    text-align: center !important;
+}
+"""
+
+
 def _build_demo() -> gr.Blocks:
-    with gr.Blocks(title="TripWeaver \u2708\ufe0f") as demo:
+    with gr.Blocks(title="TripWeaver ✈️") as demo:
         session_id_state = gr.State(_new_session_id)
 
-        gr.Markdown("# TripWeaver \u2708\ufe0f")
-        gr.Markdown("Your AI travel assistant \u2014 ask about destinations, search hotels, or find flights.")
+        gr.Markdown("# TripWeaver ✈️")
+        gr.Markdown("Your AI travel assistant - ask about destinations, search hotels, or find flights.")
 
-        chatbot = gr.Chatbot(height=520, label=None, show_label=False)
+        chatbot = gr.Chatbot(height=520, label=None, show_label=False, elem_id="chatbot")
 
         with gr.Row():
             msg_box = gr.Textbox(
@@ -115,6 +163,14 @@ def _build_demo() -> gr.Blocks:
             ],
             inputs=msg_box,
         )
+
+        # --- Footer: Settings, contact, and copyright ---
+        with gr.Row(elem_classes=["custom-footer"]):
+            gr.Markdown("⚙️ Settings", elem_classes=["settings-link"])
+        with gr.Row(elem_classes=["custom-footer"]):
+            gr.Markdown("📱 Contact us: +94 771 231 237", elem_classes=["settings-link"])
+        with gr.Row(elem_classes=["custom-footer"]):
+            gr.Markdown("© 2026 TripWeaver", elem_classes=["copyright-text"])
 
         def _clear_textbox():
             return ""
@@ -141,4 +197,5 @@ if __name__ == "__main__":
         server_name="0.0.0.0",
         server_port=int(os.environ.get("PORT", 7860)),
         theme=theme,
+        css=css,
     )
